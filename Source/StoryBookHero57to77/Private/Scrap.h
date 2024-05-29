@@ -6,10 +6,10 @@
 #include "PaperCharacter.h"
 #include "Scrap.generated.h"
 
-/**
- * 
- */
-UCLASS(config = Game)
+class UTextComponent;
+
+
+UCLASS(config=Game)
 class AScrap : public APaperCharacter
 {
 	GENERATED_BODY()
@@ -32,6 +32,62 @@ class AScrap : public APaperCharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* ScrapCameraSA;
 
+	/*
+	* This is how we handle interactions in our game, if the player is within a certain radius of an interactable object and press the interact key, it will cause something to
+	* happen. EditAnywhere allows us to actually make changes to it than just being able to look at it. 
+	*/
+
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collision, meta = (AllowPrivateAccess = "true"))
+	//class USphereComponent* SphereCollision;
+
+	/*
+	* We want to use a virtual function here to override tick so we can add our own functionality to the tick fucntion which runs every frame.
+	* AActor has it's own tick function but, by doing this, we have it run our tick function rather than the normal one. 
+	*/
+
+	virtual void Tick(float DeltaSeconds) override;
+
+
+protected:
+	/*
+	* Both of these add UProperties for us to change, making them different animations that we can apply to our PaperCharacter. Paper Flipbook are animations for paper characters
+	*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	class UPaperFlipbook* RunningAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	class UPaperFlipbook* IdleAnimation;
+
+	//Our function where we will be updating the animation of our player
+	void UpdateAnimation();
+
+	//Our function for movement.
+	void MoveScrap(float value);
+
+	//Our function we use to update our players state
+	void UpdateCharacter();
+
+	/*
+	* This is how we setup our players input to our character. We make the arguement a pointer so we can easily setup or input component once we create it.
+	*/
+
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override; 
+
+
+public:
+
+	//Constructor for AScrap, every class needs this
+	AScrap();
+
+	/*
+	* These are functions that have simple enough logic that we can just declare it in the header. All these do is return our created camera and camera boom.
+	* FORCEINLINE makes it to whenever our function is called, the body of it is pasted instead of the body having to be retrieved from the function itself.
+	* Only useful if the function is super simple. 
+	*/
+
+	FORCEINLINE class UCameraComponent* GetSideViewCamera() const { return ScrapCamera;  }
+
+	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return ScrapCameraSA; }
 
 
 
