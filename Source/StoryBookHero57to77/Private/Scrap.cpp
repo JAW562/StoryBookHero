@@ -73,6 +73,10 @@ AScrap::AScrap()
 	//Camera auto activates on creation.
 	ScrapCamera->bAutoActivate = true;
 
+	InteractSphere = CreateDefaultSubobject<USphereComponent>(TEXT("Interaction"));
+
+	InteractSphere->SetSphereRadius(40.0f);
+
 	//This is so our character does not orient toward the controllers rotation. Essential for our character to always remain visbile in our 2D game. 
 	GetCharacterMovement()->bOrientRotationToMovement = false;
 
@@ -100,6 +104,7 @@ AScrap::AScrap()
 
 	//For some reason this isn't under capsule component, makes the capsule component register as a flat base with floors so platforming is smoother.
 	GetCharacterMovement()->bUseFlatBaseForFloorChecks = true;
+
 
 	
 

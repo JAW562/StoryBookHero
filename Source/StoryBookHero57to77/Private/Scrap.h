@@ -32,6 +32,9 @@ class AScrap : public APaperCharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* ScrapCameraSA;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collision, meta = (AllowPrivateAccess = "true"))
+	class USphereComponent* InteractSphere;
+
 	/*
 	* This is how we handle interactions in our game, if the player is within a certain radius of an interactable object and press the interact key, it will cause something to
 	* happen. EditAnywhere allows us to actually make changes to it than just being able to look at it. 
