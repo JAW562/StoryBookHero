@@ -73,8 +73,13 @@ AScrap::AScrap()
 	//Camera auto activates on creation.
 	ScrapCamera->bAutoActivate = true;
 
+	//Creates the subobject for our interaction spehre
 	InteractSphere = CreateDefaultSubobject<USphereComponent>(TEXT("Interaction"));
 
+	//Attaches it to our root component
+	InteractSphere->SetupAttachment(RootComponent);
+
+	//Sets the radius for the sphere
 	InteractSphere->SetSphereRadius(40.0f);
 
 	//This is so our character does not orient toward the controllers rotation. Essential for our character to always remain visbile in our 2D game. 
@@ -155,9 +160,10 @@ void AScrap::Tick(float DeltaSeconds)
 //Definition for our SetupPlayerInputComponent, which includes binding jump and movement
 void AScrap::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
-	//We set up our input components here. Binding actions for Jump and binding Axis for Move right.
+	//We set up our input components here. Binding actions for Jump and interact and binding Axis for Move right.
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AScrap::Interact);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AScrap::MoveScrap);
 
 }
@@ -167,6 +173,37 @@ void AScrap::MoveScrap(float value)
 {
 	//Call add movement input and pass our direction vector, only being x so we only move along the x plane
 	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), value);
+}
+
+//The function for interacting with objects and people
+void AScrap::Interact()
+{
+
+	//Make a new FVector so we know where our line trace starts and make it start at our character
+	FVector Start = RootComponent->GetComponentLocation();
+
+	//To get the end, we add the start to our characters rotation and multiply that to get the distance of interaction we want
+	FVector End = Start + RootComponent->GetComponentRotation().Vector() * 100.0f;
+
+	//We make a hit result struct to get inofrmation about what our interacting key has hit
+	FHitResult HitResult;
+	
+	//Collision Query Parameters is a struct we can pass to collision functions in order to give them special behavior
+	FCollisionQueryParams Params;
+
+	//We add an ignored actor to our parameters, being our character, so we do not keep getting a hit on our character
+	Params.AddIgnoredActor(this);
+
+
+	//Gets world and sends a line trace, passing the vectors and structs we made above. Apparently the collision channel checks only WorldStatic objects but this doesn't do that
+	if (GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECollisionChannel::ECC_WorldStatic, Params))
+	{
+		//We check if our hit result is of an actor or not
+			if (HitResult.GetActor())
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Hit Actor %s"), *HitResult.GetActor()->GetName());
+			}
+	}
 }
 
 //The function to be called along with Tick in order to provide accurate character infromation

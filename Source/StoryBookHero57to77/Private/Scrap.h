@@ -8,7 +8,9 @@
 
 class UTextComponent;
 
-
+/**
+ * Our header for our scrap character, contains our camera, movement, and collision spheres.
+ */ 
 UCLASS(config=Game)
 class AScrap : public APaperCharacter
 {
@@ -69,6 +71,8 @@ protected:
 
 	//Our function we use to update our players state
 	void UpdateCharacter();
+
+	void Interact();
 
 	/*
 	* This is how we setup our players input to our character. We make the arguement a pointer so we can easily setup or input component once we create it.
