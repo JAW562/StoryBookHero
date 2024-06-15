@@ -12,9 +12,25 @@ AInteractionTestObj::AInteractionTestObj()
 	InteractionComp = CreateDefaultSubobject<UInteractionComponent>(TEXT("InteractionComp"));
 
 	//No clue if this works, I bascially just want to make it the root component rather than something else.
-	InteractionComp->MeshType = Cast<FComponentReference>(RootComponent);
+	//InteractionComp->MeshType = Cast<FComponentReference>(RootComponent);
+
+
 
 }
+
+void OnInteractionBegin() 
+{
+
+	UE_LOG(LogTemp, Warning, TEXT("Interacted"));
+
+}
+
+
+void OnInteractionEnd()
+{
+	UE_LOG(LogTemp, Warning, TEXT("InteracionEnd"));
+}
+
 
 // Called when the game starts or when spawned
 void AInteractionTestObj::BeginPlay()
