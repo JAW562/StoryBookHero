@@ -14,6 +14,10 @@ AInteractionTestObj::AInteractionTestObj()
 	//No clue if this works, I bascially just want to make it the root component rather than something else.
 	//InteractionComp->MeshType = Cast<FComponentReference>(RootComponent);
 
+	TestMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TestMesh"));
+
+	ConstructorHelpers::FObjectFind UStaticMesh* Asset = Sphere
+
 
 
 }
@@ -22,6 +26,7 @@ void OnInteractionBegin()
 {
 
 	UE_LOG(LogTemp, Warning, TEXT("Interacted"));
+
 
 }
 

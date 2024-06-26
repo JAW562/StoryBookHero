@@ -29,6 +29,9 @@ public:
 
 	// Sets default values for this actor's properties
 	AInteractionTestObj();
+
+	UPROPERTY(BlueprintReadWrite, Category= Interactions)
+	UStaticMeshComponent* TestMesh;
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

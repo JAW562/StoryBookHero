@@ -110,6 +110,9 @@ AScrap::AScrap()
 	//For some reason this isn't under capsule component, makes the capsule component register as a flat base with floors so platforming is smoother.
 	GetCharacterMovement()->bUseFlatBaseForFloorChecks = true;
 
+	SIComp = CreateDefaultSubobject<UScrapInteract>(TEXT("SIComp"));
+
+
 
 	
 
@@ -178,32 +181,10 @@ void AScrap::MoveScrap(float value)
 //The function for interacting with objects and people
 void AScrap::Interact()
 {
+	FHitResult curActor = SIComp->InteractionWithScrap(this);
 
-	//Make a new FVector so we know where our line trace starts and make it start at our character
-	FVector Start = RootComponent->GetComponentLocation();
+	UE_LOG(LogTemp, Warning, TEXT("Actor: %s"),*FString(curActor.GetActor()->GetName()));
 
-	//To get the end, we add the start to our characters rotation and multiply that to get the distance of interaction we want
-	FVector End = Start + RootComponent->GetComponentRotation().Vector() * 100.0f;
-
-	//We make a hit result struct to get inofrmation about what our interacting key has hit
-	FHitResult HitResult;
-	
-	//Collision Query Parameters is a struct we can pass to collision functions in order to give them special behavior
-	FCollisionQueryParams Params;
-
-	//We add an ignored actor to our parameters, being our character, so we do not keep getting a hit on our character
-	Params.AddIgnoredActor(this);
-
-
-	//Gets world and sends a line trace, passing the vectors and structs we made above. Apparently the collision channel checks only WorldStatic objects but this doesn't do that
-	if (GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECollisionChannel::ECC_WorldStatic, Params))
-	{
-		//We check if our hit result is of an actor or not
-			if (HitResult.GetActor())
-			{
-				UE_LOG(LogTemp, Warning, TEXT("Hit Actor %s"), *HitResult.GetActor()->GetName());
-			}
-	}
 }
 
 //The function to be called along with Tick in order to provide accurate character infromation

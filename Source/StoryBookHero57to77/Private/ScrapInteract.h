@@ -23,8 +23,8 @@ public:
 	UScrapInteract();
 
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Interactions)
-	FHitResult Interaction(APaperCharacter* ScrapRef);
+	//UPROPERTY(BlueprintCallable, Category = "Interactions")
+	FHitResult InteractionWithScrap(APaperCharacter* ScrapRef);
 
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

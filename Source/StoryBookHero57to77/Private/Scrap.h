@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "PaperCharacter.h"
+#include "ScrapInteract.h"
 #include "Scrap.generated.h"
 
 class UTextComponent;
@@ -62,6 +63,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
 	class UPaperFlipbook* IdleAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Interactions)
+	class UScrapInteract* SIComp;
 
 	//Our function where we will be updating the animation of our player
 	void UpdateAnimation();
