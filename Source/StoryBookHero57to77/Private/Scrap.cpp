@@ -181,7 +181,7 @@ void AScrap::MoveScrap(float value)
 //The function for interacting with objects and people
 void AScrap::Interact()
 {
-	FHitResult curActor = SIComp->InteractionWithScrap(this);
+	 SIComp->InteractionWithScrap(this);
 
 }
 

@@ -13,7 +13,7 @@ void UITOInter::OnInteractionBegin()
 	UE_LOG(LogTemp, Warning, TEXT("Interacted"));
 }
 
-void UITOInter::OnInteractionEnd()
-{
-	UE_LOG(LogTemp, Warning, TEXT("Stop Interact"));
-}
+//void UITOInter::OnInteractionEnd()
+//{
+	//UE_LOG(LogTemp, Warning, TEXT("Stop Interact"));
+//}

@@ -20,6 +20,6 @@ public:
 
 	virtual void OnInteractionBegin() override;
 
-	virtual void OnInteractionEnd() override;
+	//virtual void OnInteractionEnd() override;
 	
 };

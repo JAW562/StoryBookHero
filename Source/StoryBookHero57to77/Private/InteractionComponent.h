@@ -31,7 +31,7 @@ public:
 	virtual void OnInteractionBegin();
 
 	//A virtual fucntion we want to use and override with each interaction we set up. Will have the logic for what will happen once it ends.
-	virtual void OnInteractionEnd();
+	//virtual void OnInteractionEnd();
 
 
 	// Called every frame

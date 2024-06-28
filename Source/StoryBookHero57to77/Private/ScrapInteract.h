@@ -24,7 +24,7 @@ public:
 
 
 	//UPROPERTY(BlueprintCallable, Category = "Interactions")
-	FHitResult InteractionWithScrap(APaperCharacter* ScrapRef);
+	void InteractionWithScrap(APaperCharacter* ScrapRef);
 
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

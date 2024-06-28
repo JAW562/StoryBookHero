@@ -18,7 +18,7 @@ UScrapInteract::UScrapInteract()
 * FHitResultStruct containing the data of that actor
 */
 
-FHitResult UScrapInteract::InteractionWithScrap(APaperCharacter* ScrapRef)
+void UScrapInteract::InteractionWithScrap(APaperCharacter* ScrapRef)
 {
 	//We get scraps root component so we can get an accurate distance to the nearest actor
 	USceneComponent* RC = ScrapRef->GetRootComponent();
@@ -41,12 +41,15 @@ FHitResult UScrapInteract::InteractionWithScrap(APaperCharacter* ScrapRef)
 	//Here we run a single line trace using the varaibles we described above along with a collision channel, this being world static.
 	if (GetWorld()->LineTraceSingleByChannel(OnHit, Start, End, ECollisionChannel::ECC_WorldStatic, Params))
 	{
-		//Returns the information about the actor that gets hit by the line trace
-		OnHit.GetActor()->OnInteractionBegin();
+		/*
+		* Incredibly important. This does a check to see if the actor that we hit has an interaction component to it, and, if it does, it executes that interaction.
+		* We do this by checking if the actor has an interaction component and then casting it to an interaction component to do the subsqeuent logic.
+		*/
+		if (UInteractionComponent* IComp = Cast<UInteractionComponent>(OnHit.GetActor()->GetComponentByClass(UInteractionComponent::StaticClass())))
+		{
+			IComp->OnInteractionBegin();
+		}
 	}
-
-	//Return a blank FHitResult for consistency sake
-	return FHitResult();
 
 }
 

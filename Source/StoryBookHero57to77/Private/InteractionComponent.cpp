@@ -37,9 +37,9 @@ void UInteractionComponent::OnInteractionBegin()
 
 }
 
-void UInteractionComponent::OnInteractionEnd()
-{
+//void UInteractionComponent::OnInteractionEnd()
+//{
 
-}
+//}
 
 
