@@ -4,18 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "InteractionComponent.h"
 #include "Engine/StaticMesh.h"
+#include "ITOInter.h"
 #include "InteractionTestObj.generated.h"
 
 UCLASS()
 class AInteractionTestObj : public AActor
 {
 	GENERATED_BODY()
-
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Interactions, meta = (AllowPrivateAccess = "true"))
-	class UInteractionComponent* InteractionComp;
 
 	//In case we need a static mesh, for now, we do not
 	//UPROPERTY(VsibleAnywhere, BlueprintReadWrite, Category = Interactions, meta = (AllowPrivateAcess = "true"))
@@ -30,8 +26,11 @@ public:
 	// Sets default values for this actor's properties
 	AInteractionTestObj();
 
-	UPROPERTY(BlueprintReadWrite, Category= Interactions)
-	UStaticMeshComponent* TestMesh;
+	UPROPERTY (EditAnywhere, BlueprintReadWrite, Category = Interactions)
+	class UITOInter* InterComp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= Interactions)
+	class UStaticMeshComponent* TestMesh;
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

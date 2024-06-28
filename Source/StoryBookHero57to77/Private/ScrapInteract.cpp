@@ -42,7 +42,7 @@ FHitResult UScrapInteract::InteractionWithScrap(APaperCharacter* ScrapRef)
 	if (GetWorld()->LineTraceSingleByChannel(OnHit, Start, End, ECollisionChannel::ECC_WorldStatic, Params))
 	{
 		//Returns the information about the actor that gets hit by the line trace
-		return OnHit;
+		OnHit.GetActor()->OnInteractionBegin();
 	}
 
 	//Return a blank FHitResult for consistency sake
@@ -55,6 +55,7 @@ FHitResult UScrapInteract::InteractionWithScrap(APaperCharacter* ScrapRef)
 void UScrapInteract::BeginPlay()
 {
 	Super::BeginPlay();
+
 
 	// ...
 	

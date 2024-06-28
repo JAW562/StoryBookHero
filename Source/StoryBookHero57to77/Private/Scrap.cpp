@@ -183,8 +183,6 @@ void AScrap::Interact()
 {
 	FHitResult curActor = SIComp->InteractionWithScrap(this);
 
-	UE_LOG(LogTemp, Warning, TEXT("Actor: %s"),*FString(curActor.GetActor()->GetName()));
-
 }
 
 //The function to be called along with Tick in order to provide accurate character infromation
