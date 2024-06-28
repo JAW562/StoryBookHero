@@ -38,17 +38,4 @@ AInteractionTestObj::AInteractionTestObj()
 
 }
 
-// Called when the game starts or when spawned
-void AInteractionTestObj::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
-
-// Called every frame
-void AInteractionTestObj::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
 

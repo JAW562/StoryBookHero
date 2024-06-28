@@ -14,9 +14,6 @@ class UScrapInteract : public UActorComponent
 {
 	GENERATED_BODY()
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
 
 public:	
 	// Sets default values for this component's properties
@@ -26,8 +23,6 @@ public:
 	//UPROPERTY(BlueprintCallable, Category = "Interactions")
 	void InteractionWithScrap(APaperCharacter* ScrapRef);
 
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 		
 };

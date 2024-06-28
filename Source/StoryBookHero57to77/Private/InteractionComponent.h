@@ -14,9 +14,6 @@ class UInteractionComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
 
 public:	
 	// Sets default values for this component's properties
@@ -33,9 +30,6 @@ public:
 	//A virtual fucntion we want to use and override with each interaction we set up. Will have the logic for what will happen once it ends.
 	//virtual void OnInteractionEnd();
 
-
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 
 		

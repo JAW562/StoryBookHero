@@ -17,9 +17,6 @@ class AInteractionTestObj : public AActor
 	//UPROPERTY(VsibleAnywhere, BlueprintReadWrite, Category = Interactions, meta = (AllowPrivateAcess = "true"))
 	//class UStaticMeshComponent* InteractMesh;
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 	
 public:	
 
@@ -31,9 +28,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= Interactions)
 	class UStaticMeshComponent* TestMesh;
-	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 
 };
