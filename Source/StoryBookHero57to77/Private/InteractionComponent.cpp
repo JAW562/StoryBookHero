@@ -15,9 +15,11 @@ UInteractionComponent::UInteractionComponent()
 
 
 
-//Empty because we want to override these and never really have any default actions for it to preform.
-void UInteractionComponent::OnInteractionBegin()
+//Calls broadcast on our property
+void UInteractionComponent::BeginInteraction()
 {
+	//Broadcast fetches our interaction logic from whatever Scrap has interacted with. 
+	OnInteractionBegin.Broadcast();
 
 }
 

@@ -44,6 +44,9 @@ protected:
 	UFUNCTION()
 	void UpdateAnim();
 
+	UFUNCTION()
+	void OnInteractionBegin();
+
 
 public:	
 
@@ -51,6 +54,7 @@ public:
 	ATutorialWizard();
 
 	 bool scrapThere;
+
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

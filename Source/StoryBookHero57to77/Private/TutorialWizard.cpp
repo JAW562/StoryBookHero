@@ -24,8 +24,9 @@ ATutorialWizard::ATutorialWizard()
 
 	InterTW = CreateDefaultSubobject<UInteractionComponent>(TEXT("InterTW"));
 
-
 	AddOwnedComponent(InterTW);
+
+	InterTW->OnInteractionBegin.AddDynamic(this, &ATutorialWizard::OnInteractionBegin);
 
 
 
@@ -83,6 +84,11 @@ void ATutorialWizard::UpdateAnim()
 		GetSprite()->SetFlipbook(DesiredAnimation);
 	}
 
+}
+
+void ATutorialWizard::OnInteractionBegin()
+{
+	UE_LOG(LogTemp, Display, TEXT("Interaction Succesful"));
 }
 
 // Called every frame

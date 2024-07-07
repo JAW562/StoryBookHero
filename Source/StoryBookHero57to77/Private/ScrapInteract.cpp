@@ -47,7 +47,8 @@ void UScrapInteract::InteractionWithScrap(APaperCharacter* ScrapRef)
 		*/
 		if (UInteractionComponent* IComp = Cast<UInteractionComponent>(OnHit.GetActor()->GetComponentByClass(UInteractionComponent::StaticClass())))
 		{
-			IComp->OnInteractionBegin();
+			//We call the begin interaction function from our interaction component which fetches the logic from our desired interaction. 
+			IComp->BeginInteraction();
 		}
 	}
 

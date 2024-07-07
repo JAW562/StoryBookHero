@@ -7,6 +7,13 @@
 #include "InteractionComponent.generated.h"
 
 /*
+* This allows us to create a function that has many different defintions in many different classes. 
+* This is a way to allow us to add the functionality within each class rather then create different in between classes to link the two together.
+* Putting an F in front of our function name means Function.
+*/
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInteractionBegin);
+
+/*
 * This is our what will allow us to make interactions between actors and our main character
 */
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -24,11 +31,15 @@ public:
 	//FComponentReference& MeshType;
 	
 
-	//A virtual fucntion we want to use and override with each interaction we set up. Will have the logic for what will happen once it begins.
-	virtual void OnInteractionBegin();
+	//Now a property, we repeatedly get this property and add dynamic operations to it. This is why we need the Dynamic Multicast line.
+	UPROPERTY(BlueprintCallable, Category = Interactions)
+	FOnInteractionBegin OnInteractionBegin;
 
 	//A virtual fucntion we want to use and override with each interaction we set up. Will have the logic for what will happen once it ends.
 	//virtual void OnInteractionEnd();
+
+	//Our new function that is the basis of our interaction broadcasting. 
+	void BeginInteraction();
 
 
 
