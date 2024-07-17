@@ -26,7 +26,24 @@ ATutorialWizard::ATutorialWizard()
 
 	AddOwnedComponent(InterTW);
 
+	static ConstructorHelpers::FClassFinder<UDialogueWidget> Dialogue(TEXT("/Game/UisnMenus/Dialogue/Dialogue"));
+
+	if (Dialogue.Succeeded())
+	{
+		UE_LOG(LogTemp, Display, TEXT("Successful"));
+
+		DialogueWidgetClass = Dialogue.Class;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT("Unsuccessful"));
+	}
+
+	dialogueMenu = false;
+
+
 	InterTW->OnInteractionBegin.AddDynamic(this, &ATutorialWizard::OnInteractionBegin);
+
 
 
 
@@ -48,12 +65,9 @@ void ATutorialWizard::BeginPlay()
 void ATutorialWizard::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 
-	UE_LOG(LogTemp, Display, TEXT("OverlapBegin"));
-
 	if (OtherActor->IsA(AScrap::StaticClass()))
 	{
-
-		UE_LOG(LogTemp, Display, TEXT("ActorFound"));
+		ScrapRef = (AScrap*) OtherActor;
 
 		scrapThere = true;
 
@@ -88,7 +102,46 @@ void ATutorialWizard::UpdateAnim()
 
 void ATutorialWizard::OnInteractionBegin()
 {
-	UE_LOG(LogTemp, Display, TEXT("Interaction Succesful"));
+
+	if (dialogueMenu == false)
+	{
+		
+		TWDialogue = CreateWidget<UDialogueWidget>(GetWorld(), DialogueWidgetClass);
+
+
+		if (TWDialogue)
+		{
+
+			APlayerController* PC = GetWorld()->GetFirstPlayerController();
+
+			TWDialogue->SetOwningPlayer(PC);
+
+			TWDialogue->SetVisibility(ESlateVisibility::Visible);
+
+			TWDialogue->OppRef = this;
+
+			TWDialogue->ScrapRef = ScrapRef;
+
+			TWDialogue->AddToViewport();
+
+			if (TWDialogue->IsInViewport())
+			{
+				UE_LOG(LogTemp, Display, TEXT("Dialogue Widget Added to Viewport"));
+
+				dialogueMenu = true;
+			}
+			else
+			{
+				UE_LOG(LogTemp, Error, TEXT("Dialogue Widget Not Added to Viewport"));
+			}
+
+
+		}
+
+	
+	}
+
+
 }
 
 // Called every frame

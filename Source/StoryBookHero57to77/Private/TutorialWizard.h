@@ -8,6 +8,8 @@
 #include "InteractionComponent.h"
 #include "Components/SphereComponent.h"
 #include "Scrap.h"
+#include "DialogueWidget.h"
+#include "UObject/ConstructorHelpers.h"
 #include "TutorialWizard.generated.h"
 
 UCLASS()
@@ -34,6 +36,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = NPCs)
 	class UPaperFlipbook* QuestAnim;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Dialogue)
+	class UDialogueWidget* TWDialogue;
+
+
 
 	UFUNCTION(BlueprintCallable, Category = NPCs)
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
@@ -44,7 +50,7 @@ protected:
 	UFUNCTION()
 	void UpdateAnim();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable, Category = NPCs)
 	void OnInteractionBegin();
 
 
@@ -53,7 +59,15 @@ public:
 	// Sets default values for this actor's properties
 	ATutorialWizard();
 
-	 bool scrapThere;
+	UPROPERTY(BlueprintReadWrite, Category = Dialogue)
+	TSubclassOf<UDialogueWidget> DialogueWidgetClass;
+	
+	
+	bool scrapThere;
+
+	bool dialogueMenu;
+
+	AScrap* ScrapRef;
 
 
 	// Called every frame
