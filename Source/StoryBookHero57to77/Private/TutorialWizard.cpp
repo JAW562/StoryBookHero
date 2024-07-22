@@ -78,7 +78,11 @@ void ATutorialWizard::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, A
 void ATutorialWizard::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex)
 {
 
+	if (scrapThere == true)
+	{
 		scrapThere = false;
+
+	}
 
 
 }
@@ -124,11 +128,26 @@ void ATutorialWizard::OnInteractionBegin()
 
 			TWDialogue->AddToViewport();
 
+
+
 			if (TWDialogue->IsInViewport())
 			{
 				UE_LOG(LogTemp, Display, TEXT("Dialogue Widget Added to Viewport"));
 
+				TArray<FString> TWLines;
+
+				TArray<FString> ScrapLines;
+
+				TWLines.Add("Hello there.");
+
+				ScrapLines.Add("Hello to you too.");
+
+				TWDialogue->OppDialogue = TWLines;
+
+				TWDialogue->OppDialogue = ScrapLines;
+
 				dialogueMenu = true;
+
 			}
 			else
 			{
