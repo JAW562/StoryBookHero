@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Scrap.h"
 #include "PaperCharacter.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
 #include "DialogueWidget.generated.h"
 
 /**
@@ -19,6 +20,9 @@ class UDialogueWidget : public UUserWidget
 
 public:
 
+	UFUNCTION(BlueprintCallable, Category = Dialogue)
+	void EndConvo( AScrap* Scrap, APlayerController* PC);
+
 
 	//We create two TArrays, meaning dynamically sized and accessible, for Scraps Dialogue and our NPCs
 	UPROPERTY(BlueprintReadWrite, Category = Dialogue)
@@ -30,6 +34,9 @@ public:
 	//Ref for Scrap
 	UPROPERTY(BlueprintReadWrite, Category = Dialogue)
 	AScrap* ScrapRef;
+
+	UPROPERTY(BlueprintReadWrite, Category = Dialogue)
+	bool ScrapFirst;
 
 	//Ref for Opposing Character
 	UPROPERTY(BlueprintReadWrite, Category = Dialogue)

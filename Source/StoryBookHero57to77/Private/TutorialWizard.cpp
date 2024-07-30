@@ -118,6 +118,7 @@ void ATutorialWizard::OnInteractionBegin()
 
 			APlayerController* PC = GetWorld()->GetFirstPlayerController();
 
+
 			TWDialogue->SetOwningPlayer(PC);
 
 			TWDialogue->SetVisibility(ESlateVisibility::Visible);
@@ -126,17 +127,43 @@ void ATutorialWizard::OnInteractionBegin()
 
 			TWDialogue->ScrapRef = ScrapRef;
 
+			TWDialogue->SetFocus();
+
+			TWDialogue->HasMouseCapture();
+
 			TWDialogue->AddToViewport();
 
 
 
 			if (TWDialogue->IsInViewport())
 			{
+
+				ScrapRef->DisableInput(PC);
+
+
 				UE_LOG(LogTemp, Display, TEXT("Dialogue Widget Added to Viewport"));
 
 				TArray<FString> TWLines;
 
 				TArray<FString> ScrapLines;
+
+				TWDialogue->ScrapFirst = false;
+
+				TWLines.Add("Hello there.");
+
+				ScrapLines.Add("Hello to you too.");
+
+				TWLines.Add("Hello there.");
+
+				ScrapLines.Add("Hello to you too.");
+
+				TWLines.Add("Hello there.");
+
+				ScrapLines.Add("Hello to you too.");
+
+				TWLines.Add("Hello there.");
+
+				ScrapLines.Add("Hello to you too.");
 
 				TWLines.Add("Hello there.");
 
@@ -144,7 +171,7 @@ void ATutorialWizard::OnInteractionBegin()
 
 				TWDialogue->OppDialogue = TWLines;
 
-				TWDialogue->OppDialogue = ScrapLines;
+				TWDialogue->ScrapDialogue = ScrapLines;
 
 				dialogueMenu = true;
 
