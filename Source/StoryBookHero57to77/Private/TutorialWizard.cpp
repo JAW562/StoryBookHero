@@ -28,6 +28,7 @@ ATutorialWizard::ATutorialWizard()
 
 	static ConstructorHelpers::FClassFinder<UDialogueWidget> Dialogue(TEXT("/Game/UisnMenus/Dialogue/Dialogue"));
 
+
 	if (Dialogue.Succeeded())
 	{
 		UE_LOG(LogTemp, Display, TEXT("Successful"));
@@ -127,12 +128,17 @@ void ATutorialWizard::OnInteractionBegin()
 
 			TWDialogue->ScrapRef = ScrapRef;
 
+			TWDialogue->OppHead = TWHead1;
+
+			TWDialogue->ActorName = "Tutorial Wizard";
+
 			TWDialogue->SetFocus();
 
 			TWDialogue->HasMouseCapture();
 
 			TWDialogue->AddToViewport();
 
+			
 
 
 			if (TWDialogue->IsInViewport())
@@ -148,22 +154,6 @@ void ATutorialWizard::OnInteractionBegin()
 				TArray<FString> ScrapLines;
 
 				TWDialogue->ScrapFirst = false;
-
-				TWLines.Add("Hello there.");
-
-				ScrapLines.Add("Hello to you too.");
-
-				TWLines.Add("Hello there.");
-
-				ScrapLines.Add("Hello to you too.");
-
-				TWLines.Add("Hello there.");
-
-				ScrapLines.Add("Hello to you too.");
-
-				TWLines.Add("Hello there.");
-
-				ScrapLines.Add("Hello to you too.");
 
 				TWLines.Add("Hello there.");
 

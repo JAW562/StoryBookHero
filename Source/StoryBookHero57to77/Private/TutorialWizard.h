@@ -39,6 +39,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Dialogue)
 	class UDialogueWidget* TWDialogue;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Dialogue)
+	class UTexture2D* TWHead1;
+
 
 
 	UFUNCTION(BlueprintCallable, Category = NPCs)

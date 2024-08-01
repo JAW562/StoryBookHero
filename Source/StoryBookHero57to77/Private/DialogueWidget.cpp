@@ -16,9 +16,23 @@ void UDialogueWidget::EndConvo(AScrap* Scrap, APlayerController* PC)
 		Widget->RemoveFromViewport();
 
 	}
-	
+
 
 	ScrapRef->EnableInput(PC);
+
+
+}
+
+void UDialogueWidget::ClearText()
+{
+	TArray<UUserWidget*> foundWidgets;
+
+	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), foundWidgets, UTextBoxC::StaticClass(), false);
+
+	for (UUserWidget* Text : foundWidgets)
+	{
+		Text->RemoveFromViewport();
+	}
 
 
 }

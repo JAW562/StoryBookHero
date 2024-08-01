@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Scrap.h"
 #include "PaperCharacter.h"
+#include "TextBoxC.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "DialogueWidget.generated.h"
 
@@ -22,6 +23,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Dialogue)
 	void EndConvo( AScrap* Scrap, APlayerController* PC);
+
+	UFUNCTION(BlueprintCallable, Category = Dialogue)
+	void ClearText();
 
 
 	//We create two TArrays, meaning dynamically sized and accessible, for Scraps Dialogue and our NPCs
@@ -41,6 +45,12 @@ public:
 	//Ref for Opposing Character
 	UPROPERTY(BlueprintReadWrite, Category = Dialogue)
 	APaperCharacter* OppRef;
+
+	UPROPERTY(BlueprintReadWrite, Category = Dialogue)
+	UTexture2D* OppHead;
+
+	UPROPERTY(BlueprintReadWrite, Category = Dialogue)
+	FString ActorName;
 
 
 	
