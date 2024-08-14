@@ -10,6 +10,8 @@
 #include "Scrap.h"
 #include "DialogueWidget.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Kismet/GameplayStatics.h"
+#include "BattleManager.h"
 #include "TutorialWizard.generated.h"
 
 UCLASS()
@@ -64,13 +66,29 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = Dialogue)
 	TSubclassOf<UDialogueWidget> DialogueWidgetClass;
+
+	UPROPERTY(BlueprintReadWrite, Category = Combat)
+	ABattleManager* TheBattleManager;
+
+	UFUNCTION(BlueprintCallable, Category = Battle)
+	void CallBattle();
+
+	UPROPERTY(BlueprintReadWrite, Category = Battle)
+	int TWAgility;
 	
-	
+	UPROPERTY(BlueprintReadWrite, Category = Interactions)
 	bool scrapThere;
 
+	UPROPERTY(BlueprintReadWrite, Category = Dialogue)
 	bool dialogueMenu;
 
+	UPROPERTY(BlueprintReadWrite, Category = Combat)
+	bool combatThere;
+
+	UPROPERTY(BlueprintReadWrite, Category = Interactions)
 	AScrap* ScrapRef;
+
+	
 
 
 	// Called every frame

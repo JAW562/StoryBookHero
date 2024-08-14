@@ -112,6 +112,8 @@ AScrap::AScrap()
 
 	SIComp = CreateDefaultSubobject<UScrapInteract>(TEXT("SIComp"));
 
+	Agility = 1;
+
 
 
 	

@@ -45,6 +45,10 @@ ATutorialWizard::ATutorialWizard()
 
 	InterTW->OnInteractionBegin.AddDynamic(this, &ATutorialWizard::OnInteractionBegin);
 
+	TWAgility = 0;
+
+	combatThere = true;
+
 
 
 
@@ -178,6 +182,28 @@ void ATutorialWizard::OnInteractionBegin()
 	}
 
 
+}
+
+void ATutorialWizard::CallBattle()
+{
+	if (combatThere == true)
+	{
+		UGameplayStatics::OpenLevel(this, FName("/Game/Levels/BattleScenes/BattleSceneForest"), true);
+
+		if (UGameplayStatics::GetCurrentLevelName(this, true) == TEXT("BattleSceneForest"))
+		{
+			static ConstructorHelpers::FObjectFinder<ABattleManager> BattleMangager(TEXT("/Game/Battle/BattleManagment"));
+
+			if (BattleMangager.Succeeded())
+			{
+				TheBattleManager = BattleMangager.Object;
+
+				TheBattleManager->BeginBattle(ScrapRef, this);
+			}
+
+
+		}
+	}
 }
 
 // Called every frame

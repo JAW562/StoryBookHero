@@ -67,6 +67,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Interactions)
 	class UScrapInteract* SIComp;
 
+
+
 	//Our function where we will be updating the animation of our player
 	void UpdateAnimation();
 
@@ -89,6 +91,9 @@ public:
 
 	//Constructor for AScrap, every class needs this
 	AScrap();
+
+	UPROPERTY( BlueprintReadWrite, Category = Battle)
+	int Agility;
 
 	/*
 	* These are functions that have simple enough logic that we can just declare it in the header. All these do is return our created camera and camera boom.
