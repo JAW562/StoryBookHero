@@ -2,6 +2,9 @@
 
 
 #include "ScrapInteract.h"
+#include "PaperCharacter.h"
+#include "InteractionComponent.h"
+
 
 // Sets default values for this component's properties
 UScrapInteract::UScrapInteract()

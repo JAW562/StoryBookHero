@@ -2,10 +2,11 @@
 
 #pragma once
 
+class APaperCharacter; // Forward declaration of PaperCharacter
+class UInteractionComponent; // Forward declaration of InteractionComponent
+
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "PaperCharacter.h"
-#include "InteractionComponent.h"
 #include "ScrapInteract.generated.h"
 
 

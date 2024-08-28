@@ -3,15 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PaperCharacter.h"
 #include "PaperFlipbookComponent.h"
 #include "InteractionComponent.h"
 #include "Components/SphereComponent.h"
-#include "Scrap.h"
 #include "DialogueWidget.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
 #include "BattleManager.h"
+#include "StorageClass.h"
+#include "Scrap.h"
 #include "TutorialWizard.generated.h"
 
 UCLASS()
@@ -87,6 +87,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = Interactions)
 	AScrap* ScrapRef;
+
+	UPROPERTY(BlueprintReadWrite, Category = Storage)
+	FActorInfo NPCfo;
 
 	
 

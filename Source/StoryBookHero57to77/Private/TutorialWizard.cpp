@@ -31,7 +31,7 @@ ATutorialWizard::ATutorialWizard()
 
 	if (Dialogue.Succeeded())
 	{
-		UE_LOG(LogTemp, Display, TEXT("Successful"));
+		UE_LOG(LogTemp, Warning, TEXT("Successful"));
 
 		DialogueWidgetClass = Dialogue.Class;
 	}
@@ -48,6 +48,9 @@ ATutorialWizard::ATutorialWizard()
 	TWAgility = 0;
 
 	combatThere = true;
+
+	NPCfo.Sprite = IdleAnim;
+	NPCfo.actorClass = GetClass();
 
 
 
@@ -75,6 +78,11 @@ void ATutorialWizard::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, A
 		ScrapRef = (AScrap*) OtherActor;
 
 		scrapThere = true;
+
+	}
+	else
+	{
+
 
 	}
 
@@ -112,7 +120,7 @@ void ATutorialWizard::UpdateAnim()
 void ATutorialWizard::OnInteractionBegin()
 {
 
-	if (dialogueMenu == false)
+	if (dialogueMenu == false && ScrapRef != NULL)
 	{
 		
 		TWDialogue = CreateWidget<UDialogueWidget>(GetWorld(), DialogueWidgetClass);
@@ -188,22 +196,42 @@ void ATutorialWizard::CallBattle()
 {
 	if (combatThere == true)
 	{
-		UGameplayStatics::OpenLevel(this, FName("/Game/Levels/BattleScenes/BattleSceneForest"), true);
 
-		if (UGameplayStatics::GetCurrentLevelName(this, true) == TEXT("BattleSceneForest"))
+		UStorageClass* GameInstance = Cast<UStorageClass>(GetGameInstance());
+
+
+		if (GameInstance)
 		{
-			static ConstructorHelpers::FObjectFinder<ABattleManager> BattleMangager(TEXT("/Game/Battle/BattleManagment"));
+			UE_LOG(LogTemp, Warning, TEXT("GameInstance Found"));
 
-			if (BattleMangager.Succeeded())
+			if (ScrapRef)
+			{ 
+
+				GameInstance->StoreInfo(ScrapRef->ScrapInformation);
+
+			}
+
+			if (this)
 			{
-				TheBattleManager = BattleMangager.Object;
 
-				TheBattleManager->BeginBattle(ScrapRef, this);
+				GameInstance->StoreInfo(NPCfo);
+
 			}
 
 
+
+
+
 		}
+
+		if (!(GameInstance->Enemies.IsEmpty()) && GameInstance->ScrapInfo.actorClass != nullptr)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Level opened"));
+			UGameplayStatics::OpenLevel(this, "/Game/Levels/BattleScenes/BattleSceneForest");
+		}
+
 	}
+
 }
 
 // Called every frame

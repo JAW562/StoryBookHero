@@ -112,7 +112,10 @@ AScrap::AScrap()
 
 	SIComp = CreateDefaultSubobject<UScrapInteract>(TEXT("SIComp"));
 
-	Agility = 1;
+	ScrapInformation.actorClass = GetClass();
+	ScrapInformation.Sprite = IdleAnimation;
+	
+
 
 
 
@@ -148,6 +151,7 @@ void AScrap::UpdateAnimation()
 	if (GetSprite()->GetFlipbook() != curAnimation)
 	{
 		GetSprite()->SetFlipbook(curAnimation);
+		
 	}
 
 

@@ -2,9 +2,10 @@
 
 #pragma once
 
+class AScrap;
+
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Scrap.h"
 #include "PaperCharacter.h"
 #include "TextBoxC.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"

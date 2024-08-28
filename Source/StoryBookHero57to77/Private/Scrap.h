@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "PaperCharacter.h"
 #include "ScrapInteract.h"
+#include "StorageClass.h"
 #include "Scrap.generated.h"
 
 class UTextComponent;
@@ -15,6 +16,7 @@ class UTextComponent;
 UCLASS(config=Game)
 class AScrap : public APaperCharacter
 {
+
 	GENERATED_BODY()
 
 
@@ -92,8 +94,8 @@ public:
 	//Constructor for AScrap, every class needs this
 	AScrap();
 
-	UPROPERTY( BlueprintReadWrite, Category = Battle)
-	int Agility;
+	UPROPERTY(BlueprintReadWrite, Category = ScrapInfo)
+	FActorInfo ScrapInformation;
 
 	/*
 	* These are functions that have simple enough logic that we can just declare it in the header. All these do is return our created camera and camera boom.

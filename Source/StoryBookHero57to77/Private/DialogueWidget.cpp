@@ -2,6 +2,7 @@
 
 
 #include "DialogueWidget.h"
+#include "Scrap.h"
 
 
 void UDialogueWidget::EndConvo(AScrap* Scrap, APlayerController* PC)
