@@ -21,6 +21,9 @@ struct FActorInfo {
 
 	UPaperFlipbook* Sprite;
 	UClass* actorClass;
+	int agi;
+	int health;
+	int ID;
 
 
 };
@@ -41,6 +44,15 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Storage)
 	void StoreInfo(FActorInfo Info);
+
+	UFUNCTION(BlueprintCallable, Category = Storage)
+	UPaperFlipbook* GetSprite(FActorInfo Info);
+
+	UFUNCTION(BlueprintCallable, Category = Stroage)
+	UClass* GetActorClass(FActorInfo Info);
+
+	UFUNCTION(BlueprintCallable, Category = Storage)
+	int GetAgility(FActorInfo Info);
 
 
 };

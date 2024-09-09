@@ -49,9 +49,13 @@ ATutorialWizard::ATutorialWizard()
 
 	combatThere = true;
 
-	NPCfo.Sprite = IdleAnim;
-	NPCfo.actorClass = GetClass();
+	ConstructorHelpers::FObjectFinder<UPaperFlipbook>Anim(TEXT("/Game/Levels/TLevel/Flipbooks/Idle"));
 
+	NPCfo.Sprite = Anim.Object;
+	NPCfo.actorClass = this->StaticClass();
+	NPCfo.agi = 0;
+	NPCfo.health = 50;
+	NPCfo.ID = 1;
 
 
 
@@ -156,6 +160,7 @@ void ATutorialWizard::OnInteractionBegin()
 			if (TWDialogue->IsInViewport())
 			{
 
+
 				ScrapRef->DisableInput(PC);
 
 
@@ -215,6 +220,7 @@ void ATutorialWizard::CallBattle()
 			{
 
 				GameInstance->StoreInfo(NPCfo);
+
 
 			}
 

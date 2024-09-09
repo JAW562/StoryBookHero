@@ -112,8 +112,13 @@ AScrap::AScrap()
 
 	SIComp = CreateDefaultSubobject<UScrapInteract>(TEXT("SIComp"));
 
-	ScrapInformation.actorClass = GetClass();
-	ScrapInformation.Sprite = IdleAnimation;
+	ConstructorHelpers::FObjectFinder<UPaperFlipbook>Anim(TEXT("/Game/Scrap/Flipbooks/ScrapIdleAnim"));
+
+	ScrapInformation.actorClass = this->StaticClass();
+	ScrapInformation.Sprite = Anim.Object;
+	ScrapInformation.agi = 1;
+	ScrapInformation.health = 100;
+	ScrapInformation.ID = 0;
 	
 
 

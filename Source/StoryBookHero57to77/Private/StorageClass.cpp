@@ -29,3 +29,21 @@ void UStorageClass::StoreInfo(FActorInfo Info)
 
 }
 
+ UPaperFlipbook* UStorageClass::GetSprite(FActorInfo Info)
+ {
+	 UE_LOG(LogTemp, Display, TEXT("%s"), *FString(Info.Sprite->GetName()));
+	 return Info.Sprite;
+ }
+
+ UClass* UStorageClass::GetActorClass(FActorInfo Info)
+ {
+	 UE_LOG(LogTemp, Display, TEXT("%s"), *FString(Info.actorClass->GetName()));
+	 return Info.actorClass;
+ }
+
+ int UStorageClass::GetAgility(FActorInfo Info)
+ {
+	 UE_LOG(LogTemp, Display, TEXT("%i"), Info.agi);
+	 return Info.agi;
+ }
+
