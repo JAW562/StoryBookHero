@@ -2,6 +2,7 @@
 
 #pragma once
 
+//We do this to avoid circular dependices
 class AScrap;
 class UStorageClass;
 class ATutorialWizard;
@@ -14,6 +15,7 @@ class ATutorialWizard;
 #include "BattleManager.generated.h"
 
 
+//Enumerations help differentiate states so you can have proper flags and execute certain things in certain states
 UENUM(BlueprintType)
 enum CombatState
 {
@@ -64,7 +66,7 @@ public:
 	UPROPERTY(BlueprintReadWrite,  Category = Combat)
 	TSubclassOf<UBattleUI> BattleUIClass;
 
-
+	//Any standard classes cannot have UPROPERTY or UFUNCTION
 	std::vector<FActorInfo>turnOrder;
 
 	std::queue<FActorInfo>currentTurn;
