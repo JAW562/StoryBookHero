@@ -3,3 +3,19 @@
 
 #include "BattleUI.h"
 
+void UBattleUI::EndBattleUI()
+{
+
+	TArray<UUserWidget*> foundWidgets;
+
+	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), foundWidgets, UUserWidget::StaticClass(), false);
+
+	for (UUserWidget* Widget : foundWidgets)
+	{
+		Widget->RemoveFromViewport();
+
+	}
+
+
+
+}

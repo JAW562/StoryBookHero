@@ -97,6 +97,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = ScrapInfo)
 	FActorInfo ScrapInformation;
 
+	UFUNCTION(BlueprintCallable, Category = Combat)
+	void ScrapAttack(FActorInfo& Enemy, bool& AFlag, bool& SFlag, bool& Wait,  FString Action);
+
 	/*
 	* These are functions that have simple enough logic that we can just declare it in the header. All these do is return our created camera and camera boom.
 	* FORCEINLINE makes it to whenever our function is called, the body of it is pasted instead of the body having to be retrieved from the function itself.

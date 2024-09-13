@@ -14,7 +14,7 @@ class AScrap;
  * 
  */
 
-USTRUCT(BlueprintType, Category = Stroage)
+USTRUCT(BlueprintType, Category = Storage)
 struct FActorInfo {
 
 	GENERATED_USTRUCT_BODY()
@@ -42,6 +42,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = Storage)
 	TArray<FActorInfo> Enemies;
 
+	UPROPERTY(BlueprintReadWrite, Category = Storage)
+	FName PrevLevelName;
+
 	UFUNCTION(BlueprintCallable, Category = Storage)
 	void StoreInfo(FActorInfo Info);
 
@@ -54,5 +57,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Storage)
 	int GetAgility(FActorInfo Info);
 
+	UFUNCTION(BlueprintCallable, Category = Storage)
+	void StoreLevelName(FName level);
 
 };

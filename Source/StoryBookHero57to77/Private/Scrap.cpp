@@ -224,3 +224,40 @@ void AScrap::UpdateCharacter()
 	}
 
 }
+
+void AScrap::ScrapAttack(FActorInfo& Enemy, bool& AFlag, bool& SFlag, bool& Wait, FString Action)
+{
+
+	if (SFlag == true)
+	{
+		SFlag = false;
+	}
+
+	if (Action == "Attack")
+	{
+		if (AFlag == true)
+		{
+			Enemy.health -= 5;
+
+			UE_LOG(LogTemp, Warning, TEXT("Scrap Attack"));
+
+		}
+		else
+		{
+			Enemy.health -= 10;
+
+			UE_LOG(LogTemp, Warning, TEXT("Scrap Attack"));
+		}
+
+
+	}
+	else if (Action == "Defend")
+	{
+		SFlag = true;
+
+		UE_LOG(LogTemp, Warning, TEXT("Scrap Defend"));
+	}
+
+	Wait = false;
+
+}

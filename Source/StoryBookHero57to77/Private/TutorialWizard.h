@@ -64,6 +64,9 @@ public:
 	// Sets default values for this actor's properties
 	ATutorialWizard();
 
+	UFUNCTION(BlueprintCallable, Category = Combat)
+	virtual void AttackCall(FActorInfo& ScrapInfo, FActorInfo& itself, bool& AFlag, bool& SFlag, bool& Wait);
+
 	UPROPERTY(BlueprintReadWrite, Category = Dialogue)
 	TSubclassOf<UDialogueWidget> DialogueWidgetClass;
 

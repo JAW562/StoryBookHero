@@ -224,6 +224,11 @@ void ATutorialWizard::CallBattle()
 
 			}
 
+			UE_LOG(LogTemp, Warning, TEXT("%s"), GetLevel()->GetFName());
+
+
+			GameInstance->StoreLevelName("/Game/Levels/TLevel/Tutorial");
+
 
 
 
@@ -248,5 +253,40 @@ void ATutorialWizard::Tick(float DeltaTime)
 	UpdateAnim();
 
 
+}
+
+void ATutorialWizard::AttackCall(FActorInfo& ScrapInfo, FActorInfo& itself,  bool& AFlag, bool& SFlag, bool& Wait)
+{
+
+	if (AFlag == true)
+	{
+		AFlag = false;
+	}
+
+	if (ScrapInfo.health > 0 && itself.health > 25)
+	{
+		if (SFlag == true)
+		{
+			ScrapInfo.health -= 5;
+
+			UE_LOG(LogTemp, Warning, TEXT("AI Attack"));
+		}
+		else 
+		{
+			ScrapInfo.health -= 10;
+
+			UE_LOG(LogTemp, Warning, TEXT("AI Attack"));
+		}
+
+
+	}
+	else if (itself.health < 25)
+	{
+		AFlag = true;
+		UE_LOG(LogTemp, Warning, TEXT("AI Defend"));
+
+	}
+
+	Wait = false;
 }
 

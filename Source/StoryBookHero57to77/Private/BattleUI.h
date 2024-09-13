@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
 #include "BattleUI.generated.h"
 
 /**
@@ -16,6 +17,9 @@ class UBattleUI : public UUserWidget
 
 
 public:
+
+	UFUNCTION(BlueprintCallable, Category = Combat)
+	void EndBattleUI();
 
 	UPROPERTY(BlueprintReadWrite, Category = Combat)
 	bool TurnEnd;

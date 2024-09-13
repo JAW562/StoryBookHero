@@ -23,10 +23,21 @@ void UStorageClass::StoreInfo(FActorInfo Info)
 	}
 	else if (Info.actorClass == ATutorialWizard::StaticClass())
 	{
+		if (!(Enemies.IsEmpty()))
+		{
+			Enemies.Empty();
+		}
+
+
 		Enemies.Add(Info);
 
 	}
 
+}
+
+void UStorageClass::StoreLevelName(FName level)
+{
+	PrevLevelName = level;
 }
 
  UPaperFlipbook* UStorageClass::GetSprite(FActorInfo Info)

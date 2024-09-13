@@ -12,17 +12,13 @@ class ATutorialWizard;
 #include "PaperCharacter.h"
 #include "StorageClass.h"
 #include "BattleUI.h"
+#include "Delegates/Delegate.h"
 #include "BattleManager.generated.h"
 
 
-//Enumerations help differentiate states so you can have proper flags and execute certain things in certain states
-UENUM(BlueprintType)
-enum CombatState
-{
-	WaitingForPlayerInput UMETA(DisplayName = "Waiting for player input"),
-	ResolvingAction UMETA(DisplayName = "Resolving Action"),
-	AISelectingAction UMETA(DisplayName = "AISelectingAction")
-};
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FHandleActionSignature, FActorInfo, character, FString, action);
+
+
 
 
 UCLASS()
@@ -40,10 +36,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Combat)
 	void BattleTime(FActorInfo Scrap, TArray<FActorInfo> Opp);
 
-	std::vector<FActorInfo> SortTurn(std::vector<FActorInfo> order);
+	UFUNCTION(BlueprintCallable, Category = Combat)
+	TArray<FActorInfo> SortTurn(TArray<FActorInfo> order);
 
 	UFUNCTION(BlueprintCallable, Category = Combat)
-	void HandleTurn(FActorInfo character);
+	void HandleTurn();
 
 	UFUNCTION(BlueprintCallable, Category = Combat)
 	void HandleAction(FActorInfo character, FString action);
@@ -52,7 +49,16 @@ public:
 	void HandleAIAction(FActorInfo character);
 
 	UPROPERTY(BlueprintReadWrite, Category = Combat)
+	FName PrevLevel;
+
+	UPROPERTY(BlueprintReadWrite, Category = Combat)
 	FActorInfo ComScrap;
+
+	UPROPERTY(BlueprintReadWrite, Category = Combat)
+	AActor* ActorInstance;
+
+	UPROPERTY(BlueprintCallable, Category = Combat)
+	FHandleActionSignature HandleActionDelegate;
 
 	UPROPERTY(BlueprintReadWrite, Category = Combat)
 	TArray<FActorInfo> ComOpp;
@@ -66,10 +72,20 @@ public:
 	UPROPERTY(BlueprintReadWrite,  Category = Combat)
 	TSubclassOf<UBattleUI> BattleUIClass;
 
-	//Any standard classes cannot have UPROPERTY or UFUNCTION
-	std::vector<FActorInfo>turnOrder;
+	UPROPERTY(BlueprintReadWrite, Category = Combat)
+	TArray<FActorInfo>turnOrder;
 
-	std::queue<FActorInfo>currentTurn;
+	UPROPERTY(BlueprintReadWrite, Category = Combat)
+	bool Defend;
+
+	UPROPERTY(BlueprintReadWrite, Category = Combat)
+	bool AIDefend;
+
+	UPROPERTY(BlueprintReadWrite, Category = Combat)
+	bool isWaiting;
+
+	UPROPERTY(BlueprintReadWrite, Category = Combat)
+	int turnIndex;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

@@ -17,12 +17,14 @@ ABattleManager::ABattleManager()
 
 	ComOpp.Empty();
 
-	turnOrder.empty();
+	turnOrder.Empty();
 
-	currentTurn.empty();
+	turnIndex = 0;
 	
 	//We use constructo helpers to be able to find certain objects and classes without creating subobjects for them
 	static ConstructorHelpers::FClassFinder<UBattleUI> Battle(TEXT("/Game/UisnMenus/Battle/MyBattleUI"));
+
+	HandleActionDelegate.AddUniqueDynamic(this, &ABattleManager::HandleAction);
 	
 	//Check to make sure Battle was found successfully 
 	if (Battle.Succeeded())
@@ -35,6 +37,8 @@ ABattleManager::ABattleManager()
 	{
 		UE_LOG(LogTemp, Display, TEXT("Unsuccessful"));
 	}
+
+
 
 
 }
@@ -82,6 +86,11 @@ void ABattleManager::BeginPlay()
 
 		}
 
+		if (!(GameInstance->PrevLevelName.IsNone()))
+		{
+			PrevLevel = GameInstance->PrevLevelName;
+		}
+
 		//After prep has been done, we get to real battle logic
 		BattleTime(ComScrap, ComOpp);
 
@@ -119,99 +128,121 @@ void ABattleManager::BattleTime(FActorInfo Scrap, TArray<FActorInfo> Opp)
 	* Next couple of lines is kind of redudant but basically we sort our turn order in a vector, then we store the sorted turns in a queue so
 	* it is easier to maintain turn order.
 	*/
-	size_t TurnIndex = 0;
 
-	turnOrder.push_back(Scrap);
+	turnOrder.Add(Scrap);
 
 	for (FActorInfo i : Opp)
 	{
-		turnOrder.push_back(i);
+		turnOrder.Add(i);
 	}
 
 	turnOrder = SortTurn(turnOrder);
 
+	HandleTurn();
 
-	for (FActorInfo k : turnOrder)
-	{
-		currentTurn.push(k);
-
-	}
-
-	for (size_t l = 0; l <= currentTurn.size(); l++)
-	{
-		curChar = currentTurn.front();
-
-		currentTurn.pop();
-
-		HandleTurn(curChar);
-
-
-	}
+}
 	
 
 
 
-}
-
-
 //Sort turn takes in a vector and returns one that has elements sorted by agility to determine who goes first.
-std::vector<FActorInfo> ABattleManager::SortTurn(std::vector<FActorInfo> order)
+TArray<FActorInfo> ABattleManager::SortTurn(TArray<FActorInfo> order)
 {
-	for (size_t k = 0; k<order.size(); k++)
+	//We use bubble sort to sort this vector
+
+	//For our loops
+	int i, j;
+	//Check for our loop to see if we can end it. 
+	bool swapped;
+
+	//First loop to iterate through the arrat
+	for (i = 0; i < order.Num() - 1; i++)
 	{
-		//Since size is zero terminated, we have to do size -1.
-		if (k+1 <= order.size()-1)
+		//Set our boolean at the beginning so we are able to run through the correct amount of times.
+		swapped = false;
+		//Second loop to iterate through what is left of the array, this way we don't go out of bounds
+		for (j = 0; j < order.Num() - i - 1; j++)
 		{
-			//Sorting logic, compares current element with next element and switches if aglitiy is better. NEED ANOTHER LOOP TO FULLY WORK?
-			if (order.at(k).agi < order.at(k+1).agi)
+			//We check to see if our current element is less than our next one, if so, we swamp them
+			if (order[j].agi < order[j+1].agi)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Succeeded"));
+				FActorInfo temp = order[j];
+				order[j] = order[j+1];
+				order[j+1] = temp;
+				swapped = true;
 
-				FActorInfo temp = order.at(k);
 
-				order.at(k) = order.at(k + 1);
-
-				order.at(k + 1) = temp;
 
 			}
-
-
 		}
+
+		//If no elements were swapped by the inner loop, then we break fully.
+		if (swapped == false)
+			break;
+
 	}
 
 	return order;
 }
 
 //Delegates player or AI's turn.
-void ABattleManager::HandleTurn(FActorInfo character)
+void ABattleManager::HandleTurn()
 {
-	//Determines whether current character is AI or Player.
-	if (character.actorClass == AScrap::StaticClass())
+
+	if (turnIndex <= turnOrder.Num())
 	{
+
+		curChar = turnOrder[turnIndex];
+
+		turnOrder.RemoveAt(turnIndex);
+
+		
+		if (ComOpp[0].health <= 0 || ComScrap.health <= 0)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("BATTLE ENDED"));
+
+			BattleUI->EndBattleUI();
+
+			UGameplayStatics::OpenLevel(this, PrevLevel);
+		}
+
+
+	}
+
+	//Determines whether current character is AI or Player.
+	if (curChar.actorClass == AScrap::StaticClass())
+	{
+
+		if (ComScrap.health > 0)
+		{
+			turnOrder.Add(curChar);
+		}
+
+		isWaiting = true;
+
 		//Make sure we make UI visible for player turn
 		BattleUI->SetVisibility(ESlateVisibility::Visible);
+		
 
-		//THIS WILL NOT WORK< NEED TO USE TIMERS OR BROADCAST EVENTS
-		if (BattleUI->TurnEnd == true)
-		{
-			HandleAction(character, BattleUI->ActionTaken);
-		}
 		
 	}
 	//AI turn
-	else if (character.actorClass == ATutorialWizard::StaticClass())
+	else if (curChar.actorClass == ATutorialWizard::StaticClass())
 	{
+
+		if (ComOpp[0].health > 0)
+		{
+			turnOrder.Add(curChar);
+		}
+		isWaiting = true; 
+
 		BattleUI->SetVisibility(ESlateVisibility::Hidden);
 
-
-		UE_LOG(LogTemp, Warning, TEXT("NPC Turn"));
-
-		if (BattleUI->TurnEnd == true)
-		{
-			HandleAIAction(character);
-		}
+		HandleAIAction(curChar);
 
 	}
+
+
 
 }
 
@@ -219,19 +250,46 @@ void ABattleManager::HandleTurn(FActorInfo character)
 void ABattleManager::HandleAction(FActorInfo character, FString action)
 {
 
-	if (action == "Attack")
-	{
+	UE_LOG(LogTemp, Warning, TEXT("Action is being handled"));
 
-	}
-	else if (action == "Defend")
-	{
+	ActorInstance = GetWorld()->SpawnActor<AActor>(character.actorClass);
 
-	}
+	ActorInstance->SetActorHiddenInGame(true);
+
+	AScrap* ScrapInstance = Cast<AScrap>(ActorInstance);
+	
+	FActorInfo& opponent = ComOpp[0];
+
+	ScrapInstance->ScrapAttack(opponent, AIDefend, Defend, isWaiting, action);
+
+	UE_LOG(LogTemp, Warning, TEXT("%s"), isWaiting ? TEXT("true") : TEXT("false"));
+
+	ScrapInstance->Destroy();
+
+	HandleTurn();
 
 }
 
 //AI turn, will most likely call a different class for this, class that will handle AI actions in combat
 void ABattleManager::HandleAIAction(FActorInfo character)
 {
+	ActorInstance = GetWorld()->SpawnActor<AActor>(character.actorClass);
 
+	ActorInstance->SetActorHiddenInGame(true);
+
+	ATutorialWizard* EnemyInstance = Cast<ATutorialWizard>(ActorInstance);
+
+	FActorInfo& scrapactual = ComScrap;
+
+	FActorInfo& opponent = character;
+
+	EnemyInstance->AttackCall(scrapactual, opponent, AIDefend, Defend, isWaiting);
+
+	UE_LOG(LogTemp, Warning, TEXT("%s"), isWaiting ? TEXT("true AI") : TEXT("false AI"));
+
+	EnemyInstance->Destroy();
+
+	HandleTurn();
+
+	
 }
