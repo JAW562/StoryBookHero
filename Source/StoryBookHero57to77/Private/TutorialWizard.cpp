@@ -28,6 +28,14 @@ ATutorialWizard::ATutorialWizard()
 
 	static ConstructorHelpers::FClassFinder<UDialogueWidget> Dialogue(TEXT("/Game/UisnMenus/Dialogue/Dialogue"));
 
+	ScrapController = GetWorld()->GetFirstPlayerController();
+
+	GameMode = Cast<ASBHGameMode>(GetWorld()->GetAuthGameMode());
+
+	GameIn = Cast<UStorageClass>(GetWorld()->GetGameInstance());
+
+
+
 
 	if (Dialogue.Succeeded())
 	{
@@ -56,7 +64,6 @@ ATutorialWizard::ATutorialWizard()
 	NPCfo.agi = 0;
 	NPCfo.health = 50;
 	NPCfo.ID = 1;
-
 
 
 
@@ -126,59 +133,31 @@ void ATutorialWizard::OnInteractionBegin()
 
 	if (dialogueMenu == false && ScrapRef != NULL)
 	{
-		
-		TWDialogue = CreateWidget<UDialogueWidget>(GetWorld(), DialogueWidgetClass);
 
+		GameIn->NPCDifo.ActorName = "Tutorial Wizard";
+		GameIn->NPCDifo.OppHead = TWHead1;
+		GameIn->NPCDifo.ScrapFirst = false;
+		GameIn->NPCDifo.ScrapRef = ScrapRef;
+		GameIn->NPCDifo.Opposition = this;
 
-		if (TWDialogue)
-		{
+		GameMode->SwitchGameState(GameStates::Dialogue);
 
-			APlayerController* PC = GetWorld()->GetFirstPlayerController();
-
-
-			TWDialogue->SetOwningPlayer(PC);
-
-			TWDialogue->SetVisibility(ESlateVisibility::Visible);
-
-			TWDialogue->OppRef = this;
-
-			TWDialogue->ScrapRef = ScrapRef;
-
-			TWDialogue->OppHead = TWHead1;
-
-			TWDialogue->ActorName = "Tutorial Wizard";
-
-			TWDialogue->SetFocus();
-
-			TWDialogue->HasMouseCapture();
-
-			TWDialogue->AddToViewport();
-
-			
+		dialogueMenu = true;
 
 
 			if (TWDialogue->IsInViewport())
 			{
 
-
-				ScrapRef->DisableInput(PC);
-
+				ScrapRef->DisableInput(ScrapController);
 
 				UE_LOG(LogTemp, Display, TEXT("Dialogue Widget Added to Viewport"));
 
-				TArray<FString> TWLines;
-
-				TArray<FString> ScrapLines;
-
 				TWDialogue->ScrapFirst = false;
 
-				TWLines.Add("Hello there.");
 
-				ScrapLines.Add("Hello to you too.");
+				TWDialogue->OppDialogue.insert(0, )
 
-				TWDialogue->OppDialogue = TWLines;
-
-				TWDialogue->ScrapDialogue = ScrapLines;
+				TWDialogue->ScrapDialogue.Add("Hello to you too.");
 
 				dialogueMenu = true;
 
@@ -202,24 +181,21 @@ void ATutorialWizard::CallBattle()
 	if (combatThere == true)
 	{
 
-		UStorageClass* GameInstance = Cast<UStorageClass>(GetGameInstance());
-
-
-		if (GameInstance)
+		if (GameIn)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("GameInstance Found"));
 
 			if (ScrapRef)
 			{ 
 
-				GameInstance->StoreInfo(ScrapRef->ScrapInformation);
+				GameIn->StoreInfo(ScrapRef->ScrapInformation);
 
 			}
 
 			if (this)
 			{
 
-				GameInstance->StoreInfo(NPCfo);
+				GameIn->StoreInfo(NPCfo);
 
 
 			}
@@ -227,7 +203,6 @@ void ATutorialWizard::CallBattle()
 			UE_LOG(LogTemp, Warning, TEXT("%s"), GetLevel()->GetFName());
 
 
-			GameInstance->StoreLevelName("/Game/Levels/TLevel/Tutorial");
 
 
 
@@ -235,7 +210,7 @@ void ATutorialWizard::CallBattle()
 
 		}
 
-		if (!(GameInstance->Enemies.IsEmpty()) && GameInstance->ScrapInfo.actorClass != nullptr)
+		if (!(GameIn->Enemies.IsEmpty()) && GameIn->ScrapInfo.actorClass != nullptr)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Level opened"));
 			UGameplayStatics::OpenLevel(this, "/Game/Levels/BattleScenes/BattleSceneForest");

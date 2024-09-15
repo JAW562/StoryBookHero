@@ -10,6 +10,10 @@ UStorageClass::UStorageClass()
 	ScrapInfo;
 
 	Enemies.Empty();
+
+	PC = GetWorld()->GetFirstPlayerController();
+
+
 }
 
 void UStorageClass::StoreInfo(FActorInfo Info)
@@ -39,22 +43,4 @@ void UStorageClass::StoreLevelName(FName level)
 {
 	PrevLevelName = level;
 }
-
- UPaperFlipbook* UStorageClass::GetSprite(FActorInfo Info)
- {
-	 UE_LOG(LogTemp, Display, TEXT("%s"), *FString(Info.Sprite->GetName()));
-	 return Info.Sprite;
- }
-
- UClass* UStorageClass::GetActorClass(FActorInfo Info)
- {
-	 UE_LOG(LogTemp, Display, TEXT("%s"), *FString(Info.actorClass->GetName()));
-	 return Info.actorClass;
- }
-
- int UStorageClass::GetAgility(FActorInfo Info)
- {
-	 UE_LOG(LogTemp, Display, TEXT("%i"), Info.agi);
-	 return Info.agi;
- }
 

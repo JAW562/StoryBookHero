@@ -37,3 +37,27 @@ void UDialogueWidget::ClearText()
 
 
 }
+
+void UDialogueWidget::SpawnWidget(DialogueInfo StoredInfo, APlayerController* PC)
+{
+
+	this->SetOwningPlayer(PC);
+
+	this->SetVisibility(ESlateVisibility::Visible);
+
+	this->OppRef = StoredInfo.Opposition;
+
+	this->ScrapRef = StoredInfo.ScrapRef;
+
+	this->OppHead = StoredInfo.OppHead;
+
+	this->ActorName = StoredInfo.ActorName;
+
+	ScrapFirst = StoredInfo.ScrapFirst;
+
+	this->SetFocus();
+
+	this->HasMouseCapture();
+
+	this->AddToViewport();
+}

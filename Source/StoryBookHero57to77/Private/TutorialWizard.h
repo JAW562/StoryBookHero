@@ -10,7 +10,6 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
 #include "BattleManager.h"
-#include "StorageClass.h"
 #include "Scrap.h"
 #include "TutorialWizard.generated.h"
 
@@ -93,6 +92,15 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = Storage)
 	FActorInfo NPCfo;
+
+	UPROPERTY (BlueprintReadWrite, Category = Global)
+	APlayerController* ScrapController;
+
+	UPROPERTY(BlueprintReadWrite, Category = Global)
+	ASBHGameMode* GameMode;
+	
+	UPROPERTY(BlueprintReadWrite, Category = Global)
+	UStorageClass* GameIn;
 
 	
 

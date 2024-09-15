@@ -8,6 +8,7 @@ class AScrap;
 #include "Blueprint/UserWidget.h"
 #include "PaperCharacter.h"
 #include "TextBoxC.h"
+#include "StorageClass.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "DialogueWidget.generated.h"
 
@@ -28,13 +29,17 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Dialogue)
 	void ClearText();
 
+	UFUNCTION(BlueprintCallable, Category = Dialogue)
+	void SpawnWidget(DialogueInfo StoredInfo, APlayerController* PC);
+
+
 
 	//We create two TArrays, meaning dynamically sized and accessible, for Scraps Dialogue and our NPCs
 	UPROPERTY(BlueprintReadWrite, Category = Dialogue)
-	TArray<FString> OppDialogue;
+	std::vector<FString> OppDialogue;
 
 	UPROPERTY(BlueprintReadWrite, Category = Dialogue)
-	TArray<FString> ScrapDialogue;
+	std::vector<FString> ScrapDialogue;
 
 	//Ref for Scrap
 	UPROPERTY(BlueprintReadWrite, Category = Dialogue)
@@ -52,6 +57,8 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = Dialogue)
 	FString ActorName;
+
+
 
 
 	

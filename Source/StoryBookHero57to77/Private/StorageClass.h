@@ -8,8 +8,8 @@ class AScrap;
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
 #include"PaperFlipbook.h"
+#include "SBHGameMode.h"
 #include "StorageClass.generated.h"
-
 /**
  * 
  */
@@ -25,6 +25,18 @@ struct FActorInfo {
 	int health;
 	int ID;
 
+
+};
+
+
+USTRUCT(BlueprintType, Category = Storage)
+struct DialogueInfo 
+{
+	AScrap* ScrapRef;
+	bool ScrapFirst;
+	UTexture2D* OppHead;
+	FString ActorName;
+	APaperCharacter* Opposition;
 
 };
 
@@ -45,19 +57,20 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = Storage)
 	FName PrevLevelName;
 
+	UPROPERTY(BluerprintReadWrite, Category = Storage)
+	FVector* ScrapLocation; 
+
+	UPROPERTY(BlueprintReadWrite, Category = Storage)
+	APlayerController* PC;
+
+	UPROPERTY(BlueprintReadWrite, Category = Storage)
+	DialogueInfo NPCDifo;
+
 	UFUNCTION(BlueprintCallable, Category = Storage)
 	void StoreInfo(FActorInfo Info);
 
 	UFUNCTION(BlueprintCallable, Category = Storage)
-	UPaperFlipbook* GetSprite(FActorInfo Info);
-
-	UFUNCTION(BlueprintCallable, Category = Stroage)
-	UClass* GetActorClass(FActorInfo Info);
-
-	UFUNCTION(BlueprintCallable, Category = Storage)
-	int GetAgility(FActorInfo Info);
-
-	UFUNCTION(BlueprintCallable, Category = Storage)
 	void StoreLevelName(FName level);
+
 
 };

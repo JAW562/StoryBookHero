@@ -110,6 +110,7 @@ AScrap::AScrap()
 	//For some reason this isn't under capsule component, makes the capsule component register as a flat base with floors so platforming is smoother.
 	GetCharacterMovement()->bUseFlatBaseForFloorChecks = true;
 
+
 	SIComp = CreateDefaultSubobject<UScrapInteract>(TEXT("SIComp"));
 
 	ConstructorHelpers::FObjectFinder<UPaperFlipbook>Anim(TEXT("/Game/Scrap/Flipbooks/ScrapIdleAnim"));
