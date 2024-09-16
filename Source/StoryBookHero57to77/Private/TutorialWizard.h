@@ -93,9 +93,6 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = Storage)
 	FActorInfo NPCfo;
 
-	UPROPERTY (BlueprintReadWrite, Category = Global)
-	APlayerController* ScrapController;
-
 	UPROPERTY(BlueprintReadWrite, Category = Global)
 	ASBHGameMode* GameMode;
 	

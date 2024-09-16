@@ -2,6 +2,7 @@
 
 
 #include "SBHGameMode.h"
+#include "DialogueWidget.h"
 
 
 void ASBHGameMode::SwitchGameState(GameStates newState)
@@ -29,23 +30,10 @@ void ASBHGameMode::SwitchGameState(GameStates newState)
 		* I will most likely have a function to store dialogue or maybe select it based on who their talking to?
 		* I have to write all of the dialogue out in the code somwhere anyway so it's not like I'm saving space or anything by including in characters classes.
 		* Either way, this state will probably execute functions from dialogue widget, most likely create ones called spawn and select dialogue, something like that.
-		* This is the state I'm most iffy on calling. 
+		* This is the state I'm most iffy on calling.
 		*/
 
-
-		UDialogueWidget* DialogueWidget = CreateWidget<UDialogueWidget>(GetWorld(), UDialogueWidget::StaticClass());
-
-		DialogueWidget->SpawnWidget(GameInstance->NPCDifo, GameInstance->PC);
-
-		if (DialogueWidget)
-		{
-			DisableInput(GameInstance->PC);
-
-			UE_LOG(LogTemp, Warning, TEXT("Dialogue Widget Added to Viewport"));
-
-
-		}
-
+		DialogueFunction(GameInstance);
 
 
 
@@ -95,6 +83,43 @@ void ASBHGameMode::SwitchGameState(GameStates newState)
 		* Psuedocode for logic:
 		* Activated when player interacts with a shopkeeper as their able to access the shopkeeper inventory and buy stuff.
 		*/
+
+		break;
+
+	default:
+
+		break;
+	}
+}
+
+void ASBHGameMode::DialogueFunction(UStorageClass* GameIn)
+{
+	UDialogueWidget* DialogueWidget = CreateWidget<UDialogueWidget>(GetWorld(), UDialogueWidget::StaticClass());
+
+	if (DialogueWidget)
+	{
+
+		APlayerController* PC = GetWorld()->GetFirstPlayerController();
+
+		DialogueWidget->SpawnWidget(GameIn->NPCDifo, PC);
+
+		if (DialogueWidget->IsInViewport())
+		{
+			DisableInput(PC);
+
+			UE_LOG(LogTemp, Warning, TEXT("Dialogue Widget Added to Viewport"));
+
+			DialogueWidget->OppDialogue.Add("Hello There.");
+
+			DialogueWidget->ScrapDialogue.Add("Hello to you too.");
+
+
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("Dialogue Widget Not Added to Viewport"));
+		}
+
 	}
 }
 

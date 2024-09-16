@@ -2,9 +2,10 @@
 
 #pragma once
 
+class UDialogueWidget;
+
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "DialogueWidget.h"
 #include "SBHGameMode.generated.h"
 
 
@@ -36,5 +37,8 @@ public:
 
 UFUNCTION(BlueprintCallable, Category = GameBase)
 void SwitchGameState(GameStates newState);
+
+UFUNCTION(BlueprintCallable, Category = GameBase)
+void DialogueFunction(UStorageClass* GameIn);
 
 };

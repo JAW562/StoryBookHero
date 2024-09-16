@@ -57,6 +57,10 @@ class AScrap : public APaperCharacter
 
 
 protected:
+
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
 	/*
 	* Both of these add UProperties for us to change, making them different animations that we can apply to our PaperCharacter. Paper Flipbook are animations for paper characters
 	*/

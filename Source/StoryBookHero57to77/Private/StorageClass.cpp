@@ -11,8 +11,6 @@ UStorageClass::UStorageClass()
 
 	Enemies.Empty();
 
-	PC = GetWorld()->GetFirstPlayerController();
-
 
 }
 

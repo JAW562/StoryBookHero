@@ -28,11 +28,6 @@ ATutorialWizard::ATutorialWizard()
 
 	static ConstructorHelpers::FClassFinder<UDialogueWidget> Dialogue(TEXT("/Game/UisnMenus/Dialogue/Dialogue"));
 
-	ScrapController = GetWorld()->GetFirstPlayerController();
-
-	GameMode = Cast<ASBHGameMode>(GetWorld()->GetAuthGameMode());
-
-	GameIn = Cast<UStorageClass>(GetWorld()->GetGameInstance());
 
 
 
@@ -76,7 +71,12 @@ ATutorialWizard::ATutorialWizard()
 // Called when the game starts or when spawned
 void ATutorialWizard::BeginPlay()
 {
+
 	Super::BeginPlay();
+
+	GameMode = Cast<ASBHGameMode>(GetWorld()->GetAuthGameMode());
+
+	GameIn = Cast<UStorageClass>(GetWorld()->GetGameInstance());
 
 	
 }
@@ -139,36 +139,12 @@ void ATutorialWizard::OnInteractionBegin()
 		GameIn->NPCDifo.ScrapFirst = false;
 		GameIn->NPCDifo.ScrapRef = ScrapRef;
 		GameIn->NPCDifo.Opposition = this;
+		GameIn->NPCDifo.CombatAfter = true;
 
 		GameMode->SwitchGameState(GameStates::Dialogue);
 
 		dialogueMenu = true;
 
-
-			if (TWDialogue->IsInViewport())
-			{
-
-				ScrapRef->DisableInput(ScrapController);
-
-				UE_LOG(LogTemp, Display, TEXT("Dialogue Widget Added to Viewport"));
-
-				TWDialogue->ScrapFirst = false;
-
-
-				TWDialogue->OppDialogue.insert(0, )
-
-				TWDialogue->ScrapDialogue.Add("Hello to you too.");
-
-				dialogueMenu = true;
-
-			}
-			else
-			{
-				UE_LOG(LogTemp, Error, TEXT("Dialogue Widget Not Added to Viewport"));
-			}
-
-
-		}
 
 	
 	}

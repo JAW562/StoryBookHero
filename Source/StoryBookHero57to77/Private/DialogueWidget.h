@@ -30,16 +30,16 @@ public:
 	void ClearText();
 
 	UFUNCTION(BlueprintCallable, Category = Dialogue)
-	void SpawnWidget(DialogueInfo StoredInfo, APlayerController* PC);
+	void SpawnWidget(FDialogueInfo StoredInfo, APlayerController* PC);
 
 
 
 	//We create two TArrays, meaning dynamically sized and accessible, for Scraps Dialogue and our NPCs
 	UPROPERTY(BlueprintReadWrite, Category = Dialogue)
-	std::vector<FString> OppDialogue;
+	TArray<FString> OppDialogue;
 
 	UPROPERTY(BlueprintReadWrite, Category = Dialogue)
-	std::vector<FString> ScrapDialogue;
+	TArray<FString> ScrapDialogue;
 
 	//Ref for Scrap
 	UPROPERTY(BlueprintReadWrite, Category = Dialogue)

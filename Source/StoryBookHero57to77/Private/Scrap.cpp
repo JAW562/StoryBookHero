@@ -129,6 +129,13 @@ AScrap::AScrap()
 
 }
 
+void AScrap::BeginPlay()
+{
+
+	Super::BeginPlay();
+
+}
+
 void AScrap::UpdateAnimation()
 {
 	//Gets the current velocity of our character, we make it a constant so it does not change during the course of executing this function.

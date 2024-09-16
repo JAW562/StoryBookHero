@@ -38,7 +38,7 @@ void UDialogueWidget::ClearText()
 
 }
 
-void UDialogueWidget::SpawnWidget(DialogueInfo StoredInfo, APlayerController* PC)
+void UDialogueWidget::SpawnWidget(FDialogueInfo StoredInfo, APlayerController* PC)
 {
 
 	this->SetOwningPlayer(PC);
