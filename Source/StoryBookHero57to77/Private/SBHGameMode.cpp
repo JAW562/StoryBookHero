@@ -99,7 +99,7 @@ void ASBHGameMode::DialogueFunction(UStorageClass* GameIn)
 	if (DialogueWidget)
 	{
 
-		APlayerController* PC = GetWorld()->GetFirstPlayerController();
+		APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 
 		DialogueWidget->SpawnWidget(GameIn->NPCDifo, PC);
 
