@@ -20,6 +20,7 @@ struct FActorInfo {
 
 	GENERATED_USTRUCT_BODY()
 
+	UPROPERTY(BlueprintReadWrite, Category = Storage)
 	UPaperFlipbook* Sprite;
 	UClass* actorClass;
 	int agi;
@@ -41,7 +42,22 @@ struct FDialogueInfo {
 	APaperCharacter* Opposition;
 	FString ActorName;
 	bool ScrapFirst;
+	UPROPERTY(BlueprintReadWrite, Category = Combat)
 	bool CombatAfter;
+
+};
+
+USTRUCT(BlueprintType, Category = Storage)
+struct FCombatInfo {
+
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(BlueprintReadWrite, Category = Combat)
+	FVector EnemyTransform;
+	UPROPERTY(BlueprintReadWrite, Category = Combat)
+	AActor* BattleCamera;
+	UPROPERTY(BlueprintReadWrite, Category = Combat)
+	FRotator EnemyRotation;
 
 };
 
@@ -66,13 +82,21 @@ public:
 	FVector ScrapLocation; 
 
 	UPROPERTY(BlueprintReadWrite, Category = Storage)
+	FRotator ScrapRotation;
+
+	UPROPERTY(BlueprintReadWrite, Category = Storage)
 	FDialogueInfo NPCDifo;
+
+	UPROPERTY(BlueprintReadWrite, Category = Storage)
+	FCombatInfo ComInfo;
 
 	UFUNCTION(BlueprintCallable, Category = Storage)
 	void StoreInfo(FActorInfo Info);
 
 	UFUNCTION(BlueprintCallable, Category = Storage)
 	void StoreLevelName(FName level);
+
+
 
 
 };

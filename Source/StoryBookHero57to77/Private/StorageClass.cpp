@@ -25,11 +25,6 @@ void UStorageClass::StoreInfo(FActorInfo Info)
 	}
 	else if (Info.actorClass == ATutorialWizard::StaticClass())
 	{
-		if (!(Enemies.IsEmpty()))
-		{
-			Enemies.Empty();
-		}
-
 
 		Enemies.Add(Info);
 

@@ -26,23 +26,6 @@ ATutorialWizard::ATutorialWizard()
 
 	AddOwnedComponent(InterTW);
 
-	static ConstructorHelpers::FClassFinder<UDialogueWidget> Dialogue(TEXT("/Game/UisnMenus/Dialogue/Dialogue"));
-
-
-
-
-
-	if (Dialogue.Succeeded())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Successful"));
-
-		DialogueWidgetClass = Dialogue.Class;
-	}
-	else
-	{
-		UE_LOG(LogTemp, Display, TEXT("Unsuccessful"));
-	}
-
 	dialogueMenu = false;
 
 
@@ -141,6 +124,11 @@ void ATutorialWizard::OnInteractionBegin()
 		GameIn->NPCDifo.Opposition = this;
 		GameIn->NPCDifo.CombatAfter = true;
 
+
+		GameIn->StoreInfo(NPCfo);
+
+		GameIn->StoreInfo(ScrapRef->ScrapInformation);
+
 		GameMode->SwitchGameState(GameStates::Dialogue);
 
 		dialogueMenu = true;
@@ -149,50 +137,6 @@ void ATutorialWizard::OnInteractionBegin()
 	
 	}
 
-
-}
-
-void ATutorialWizard::CallBattle()
-{
-	if (combatThere == true)
-	{
-
-		if (GameIn)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("GameInstance Found"));
-
-			if (ScrapRef)
-			{ 
-
-				GameIn->StoreInfo(ScrapRef->ScrapInformation);
-
-			}
-
-			if (this)
-			{
-
-				GameIn->StoreInfo(NPCfo);
-
-
-			}
-
-			UE_LOG(LogTemp, Warning, TEXT("%s"), GetLevel()->GetFName());
-
-
-
-
-
-
-
-		}
-
-		if (!(GameIn->Enemies.IsEmpty()) && GameIn->ScrapInfo.actorClass != nullptr)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Level opened"));
-			UGameplayStatics::OpenLevel(this, "/Game/Levels/BattleScenes/BattleSceneForest");
-		}
-
-	}
 
 }
 

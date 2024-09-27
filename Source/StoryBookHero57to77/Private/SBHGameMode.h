@@ -3,10 +3,12 @@
 #pragma once
 
 class UDialogueWidget;
+class AScrap;
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "PaperFlipbookComponent.h"
 #include "SBHGameMode.generated.h"
 
 
@@ -36,10 +38,24 @@ class ASBHGameMode : public AGameModeBase
 
 public:
 
+	ASBHGameMode();
+
 UFUNCTION(BlueprintCallable, Category = GameBase)
 void SwitchGameState(GameStates newState);
 
 UFUNCTION(BlueprintCallable, Category = GameBase)
 void DialogueFunction(UStorageClass* GameIn);
+
+UFUNCTION(BlueprintCallable, Category = GameBase)
+void CombatFunction(UStorageClass* GameIn);
+
+UFUNCTION(BlueprintCallable, Category = GameBase)
+void OverworldFunction(UStorageClass* GameIn);
+
+UPROPERTY(BlueprintReadWrite, Category = GameBase)
+TSubclassOf<UDialogueWidget> DialogueWidgetClass;
+
+UPROPERTY(BlueprintReadWrite, Category = GameBase)
+TSubclassOf<AScrap> ScrapClass;
 
 };

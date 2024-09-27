@@ -41,6 +41,8 @@ void UDialogueWidget::ClearText()
 void UDialogueWidget::SpawnWidget(FDialogueInfo StoredInfo, APlayerController* PC)
 {
 
+	UE_LOG(LogTemp, Warning, TEXT("Got to widget spawn"));
+
 	this->SetOwningPlayer(PC);
 
 	this->SetVisibility(ESlateVisibility::Visible);

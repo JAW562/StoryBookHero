@@ -3,6 +3,40 @@
 
 #include "SBHGameMode.h"
 #include "DialogueWidget.h"
+#include "Scrap.h"
+
+
+ASBHGameMode::ASBHGameMode()
+{
+
+	static ConstructorHelpers::FClassFinder<UDialogueWidget> Dialogue(TEXT("/Game/UisnMenus/Dialogue/Dialogue"));
+
+
+
+	if (Dialogue.Succeeded())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Successful"));
+
+		DialogueWidgetClass = Dialogue.Class;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT("Unsuccessful"));
+	}
+
+	static ConstructorHelpers::FClassFinder<AScrap> ScrapBP(TEXT("/Game/Scrap/ScrapCharacter"));
+
+	if (ScrapBP.Succeeded())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Successful"));
+
+		ScrapClass = ScrapBP.Class;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT("Unsuccessful"));
+	}
+}
 
 
 void ASBHGameMode::SwitchGameState(GameStates newState)
@@ -19,6 +53,7 @@ void ASBHGameMode::SwitchGameState(GameStates newState)
 		* From there, it should be fine, everything we need to find will be stored in the game instance.
 		*/
 
+		OverworldFunction(GameInstance);
 
 
 		break;
@@ -46,6 +81,9 @@ void ASBHGameMode::SwitchGameState(GameStates newState)
 		* store the battle scene camera. So we disable scrap movement, fetch the camera and focus it. At that time, we spawn in scraps sprite as well as the enemys.
 		* That's about it for the state itself.
 		*/
+
+		UE_LOG(LogTemp, Warning, TEXT("Combat Called"));
+		CombatFunction(GameInstance);
 		break;
 
 	case GameStates::LevelTransition:
@@ -94,7 +132,7 @@ void ASBHGameMode::SwitchGameState(GameStates newState)
 
 void ASBHGameMode::DialogueFunction(UStorageClass* GameIn)
 {
-	UDialogueWidget* DialogueWidget = CreateWidget<UDialogueWidget>(GetWorld(), UDialogueWidget::StaticClass());
+	UDialogueWidget* DialogueWidget = CreateWidget<UDialogueWidget>(GetWorld(), DialogueWidgetClass);
 
 	if (DialogueWidget)
 	{
@@ -102,6 +140,7 @@ void ASBHGameMode::DialogueFunction(UStorageClass* GameIn)
 		APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 
 		DialogueWidget->SpawnWidget(GameIn->NPCDifo, PC);
+
 
 		if (DialogueWidget->IsInViewport())
 		{
@@ -114,6 +153,7 @@ void ASBHGameMode::DialogueFunction(UStorageClass* GameIn)
 			DialogueWidget->ScrapDialogue.Add("Hello to you too.");
 
 
+
 		}
 		else
 		{
@@ -121,6 +161,52 @@ void ASBHGameMode::DialogueFunction(UStorageClass* GameIn)
 		}
 
 	}
+}
+
+void ASBHGameMode::CombatFunction(UStorageClass* GameIn)
+{
+	APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+
+	if (GameIn->ComInfo.BattleCamera != nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Camera Found"));
+
+		PC->SetViewTargetWithBlend(GameIn->ComInfo.BattleCamera);
+	} 
+
+	for (FActorInfo character : GameIn->Enemies)
+	{
+
+		FActorSpawnParameters SpawnInfo;
+
+		APaperCharacter* Enemy = GetWorld()->SpawnActor<APaperCharacter>(APaperCharacter::StaticClass(), GameIn->ComInfo.EnemyTransform, GameIn->ComInfo.EnemyRotation, SpawnInfo);
+
+		Enemy->GetSprite()->SetFlipbook(character.Sprite);
+
+		GameIn->ComInfo.EnemyTransform += FVector (50.0f, 0.0f, 0.0f);
+
+	}
+
+	if (!(GameIn->Enemies.IsEmpty()) && GameIn->ScrapInfo.actorClass != nullptr)
+	{
+
+
+
+	}
+
+
+}
+
+void ASBHGameMode::OverworldFunction(UStorageClass* GameIn)
+{
+
+	UE_LOG(LogTemp, Warning, TEXT("Scrap Spawned"));
+	FActorSpawnParameters SpawnInfo;
+
+	//Need to probably spawn in the blueprint rather than the c++ class
+	GetWorld()->SpawnActor<AScrap>(ScrapClass, GameIn->ScrapLocation, GameIn->ScrapRotation, SpawnInfo);
+
+
 }
 
 

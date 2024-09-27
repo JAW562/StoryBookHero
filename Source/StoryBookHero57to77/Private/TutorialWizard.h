@@ -38,9 +38,6 @@ protected:
 	class UPaperFlipbook* QuestAnim;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Dialogue)
-	class UDialogueWidget* TWDialogue;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Dialogue)
 	class UTexture2D* TWHead1;
 
 
@@ -66,14 +63,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Combat)
 	virtual void AttackCall(FActorInfo& ScrapInfo, FActorInfo& itself, bool& AFlag, bool& SFlag, bool& Wait);
 
-	UPROPERTY(BlueprintReadWrite, Category = Dialogue)
-	TSubclassOf<UDialogueWidget> DialogueWidgetClass;
 
 	UPROPERTY(BlueprintReadWrite, Category = Combat)
 	ABattleManager* TheBattleManager;
-
-	UFUNCTION(BlueprintCallable, Category = Battle)
-	void CallBattle();
 
 	UPROPERTY(BlueprintReadWrite, Category = Battle)
 	int TWAgility;
